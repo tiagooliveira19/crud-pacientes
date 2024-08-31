@@ -1,5 +1,5 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { PacientesEntity } from "../src/pacientes/pacientes.entity";
+import { PacientesEntity } from "../src/pacientes/entity/pacientes.entity";
 
 const dbConfig: TypeOrmModuleOptions = {
     type: 'mysql',

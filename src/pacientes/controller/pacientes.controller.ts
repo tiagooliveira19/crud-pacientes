@@ -8,8 +8,8 @@ import {
     Param,
     HttpStatus
 } from '@nestjs/common';
-import { PacientesService } from "./pacientes.service";
-import { PacientesDTO } from './pacientes.dto';
+import { PacientesService } from "../service/pacientes.service";
+import { PacientesDTO } from '../dto/pacientes.dto';
 
 @Controller('pacientes')
 export class PacientesController {
