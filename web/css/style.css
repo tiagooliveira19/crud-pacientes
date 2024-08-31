@@ -79,6 +79,7 @@ code {
     font-weight: 600;
 }
 
+/* Grid */
 .w-90 {
     width: 90% !important;
 }
@@ -87,9 +88,17 @@ code {
     width: 35% !important;
 }
 
+.ml-10 {
+    margin-left: 10px !important;
+}
+
 .margin-auto {
     margin-left: auto;
     margin-right: auto;
+}
+
+.fs-20 {
+    font-size: 20px !important;
 }
 
 .display-flex {
@@ -98,10 +107,6 @@ code {
 
 .hidden {
     display: none !important;
-}
-
-.ml-10 {
-    margin-left: 10px !important;
 }
 
 .pointer {
