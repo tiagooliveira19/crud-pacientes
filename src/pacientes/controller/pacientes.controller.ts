@@ -45,8 +45,28 @@ export class PacientesController {
         };
     }
 
+    @Get('cpf/:cpf')
+    async readPacienteCPF(@Param('cpf') cpf: string) {
+        const data =  await this.pacientesService.findByCPF(cpf);
+        return {
+            statusCode: HttpStatus.OK,
+            message: 'Paciente encontrado com sucesso!',
+            data,
+        };
+    }
+
+    @Get('nome/:nome')
+    async readPacienteNome(@Param('nome') nome: string) {
+        const data =  await this.pacientesService.findByName(nome);
+        return {
+            statusCode: HttpStatus.OK,
+            message: 'Paciente(s) encontrado com sucesso!',
+            data,
+        };
+    }
+
     @Patch(':id')
-    async uppdatePaciente(@Param('id') id: number, @Body() data: Partial<PacientesDTO>) {
+    async updatePaciente(@Param('id') id: number, @Body() data: Partial<PacientesDTO>) {
         await this.pacientesService.update(id, data);
         return {
             statusCode: HttpStatus.OK,

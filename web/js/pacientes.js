@@ -163,3 +163,100 @@ function updatePacient (id, data) {
     }
   });
 }
+
+// Fetches patient by cpf
+function fetchesPatientByCPF (cpf) {
+
+  $.get(`http://localhost:3000/pacientes/cpf/` + cpf, function (response) {
+
+    // console.log(response);
+
+    var table_body = 'table-body-patients';
+    var data = response.data;
+
+    if (data) {
+
+      $('#total-itens').html('1');
+
+      $('#' + table_body).empty();
+
+        $('#table-body-patients')
+          .append(
+            '<tr>'+
+            '<td>'+ data.id +'</td>' +
+            '<td>'+ data.nome +'</td>' +
+            '<td>'+ formatesCPF(data.cpf) +'</td>' +
+            '<td>'+ formatesDateExibition(data.data_nascimento) +'</td>' +
+            '<td>' +
+            '<i class="fa-solid fa-trash-can me-3 icon-edit" title="Excluir" onclick="deletePacient (' + data.id + ')"></i>' +
+            '<i class="fa-solid fa-pen-to-square icon-delete" title="Editar" data-bs-toggle="modal" data-bs-target="#updatePatientModal" onclick="fetchesPatientById (' + data.id + ')"></i>' +
+            '</td>' +
+            '</tr>'
+          );
+    } else {
+      $('#table-body-patients')
+        .html('<tr class="text-center"><td colspan="7">Nenhum registro encontrado!</td></tr>');
+    }
+  });
+}
+
+// Fetches patient by name
+function fetchesPatientByName (name) {
+
+  $.get(`http://localhost:3000/pacientes/nome/` + name, function (response) {
+
+    // console.log(response);
+
+    var table_body = 'table-body-patients';
+
+    if (response.data.length > 0) {
+
+      $('#total-itens').html(response.data.length);
+
+      $('#' + table_body).empty();
+
+      $.each(response.data, function (key, json) {
+
+        $('#' + table_body)
+          .append(
+            '<tr>'+
+            '<td>'+ json['id'] +'</td>' +
+            '<td>'+ json['nome'] +'</td>' +
+            '<td>'+ formatesCPF(json['cpf']) +'</td>' +
+            '<td>'+ formatesDateExibition(json['data_nascimento']) +'</td>' +
+            '<td>' +
+            '<i class="fa-solid fa-trash-can me-3 icon-edit" title="Excluir" onclick="deletePacient (' + json['id'] + ')"></i>' +
+            '<i class="fa-solid fa-pen-to-square icon-delete" title="Editar" data-bs-toggle="modal" data-bs-target="#updatePatientModal" onclick="fetchesPatientById (' + json['id'] + ')"></i>' +
+            '</td>' +
+            '</tr>'
+          );
+      });
+    } else {
+      $('#table-body-patients')
+        .html('<tr class="text-center"><td colspan="7">Nenhum registro encontrado!</td></tr>');
+    }
+  });
+}
+
+let debounceTimeout;
+
+$('#search').keyup(function () {
+  let search = $(this).val().trim();
+
+  clearTimeout(debounceTimeout);
+
+  if (search.length === 0) {
+    debounceTimeout = setTimeout(function () {
+      fetchesPatients();
+    }, 1500);
+    return;
+  }
+
+  debounceTimeout = setTimeout(function () {
+    if (isValidCPF(search)) {
+      fetchesPatientByCPF(removeMask(search));
+    } else {
+      fetchesPatientByName(search);
+    }
+  }, 300);
+});

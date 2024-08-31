@@ -1,6 +1,6 @@
 import { Injectable, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, ILike } from 'typeorm';
 
 import { PacientesEntity } from '../entity/pacientes.entity';
 import { PacientesDTO } from '../dto/pacientes.dto';
@@ -26,6 +26,14 @@ export class PacientesService {
         return await this.pacientesRepository.findOne({
             where: {
                 cpf: cpf,
+            },
+        });
+    }
+
+    async findByName(nome: string): Promise<PacientesDTO[]> {
+        return await this.pacientesRepository.find({
+            where: {
+                nome: ILike(`%${nome}%`),
             },
         });
     }
