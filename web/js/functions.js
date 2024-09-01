@@ -177,3 +177,21 @@ function getDataCEP(cep, rua, bairro, cidade, estado) {
     }
   });
 }
+
+// Disables pagination buttons
+function disablesButton (currentPage, totalPages, previous, next) {
+
+  currentPage = parseInt(currentPage);
+
+  if (currentPage === 1) {
+    $('#' + previous).css({'pointer-events': 'none', 'color': '#CCCCCC'});
+  } else {
+    $('#' + previous).css({'pointer-events': 'all', 'color': 'inherit'});
+  }
+
+  if (currentPage === totalPages) {
+    $('#' + next).css({'pointer-events': 'none', 'color': '#CCCCCC'});
+  } else {
+    $('#' + next).css({'pointer-events': 'all', 'color': 'inherit'});
+  }
+}

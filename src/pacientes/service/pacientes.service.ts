@@ -12,8 +12,18 @@ export class PacientesService {
         private pacientesRepository: Repository<PacientesEntity>,
     ) {}
 
-    async showAll() {
-        return await this.pacientesRepository.find();
+    async showAll(page: number = 1, limit: number = 10) {
+        const [result, total] = await this.pacientesRepository.findAndCount({
+            skip: (page - 1) * limit,
+            take: limit,
+        });
+
+        return {
+            data: result,
+            count: total,
+            page,
+            totalPages: Math.ceil(total / limit),
+        };
     }
 
     async create(data: PacientesDTO) {
@@ -30,12 +40,21 @@ export class PacientesService {
         });
     }
 
-    async findByName(nome: string): Promise<PacientesDTO[]> {
-        return await this.pacientesRepository.find({
+    async findByName(nome: string, page: number = 1, limit: number = 10): Promise<{ data: PacientesDTO[]; count: number; page: number; totalPages: number; }> {
+        const [result, total] = await this.pacientesRepository.findAndCount({
             where: {
                 nome: ILike(`%${nome}%`),
             },
+            skip: (page - 1) * limit,
+            take: limit,
         });
+
+        return {
+            data: result,
+            count: total,
+            page,
+            totalPages: Math.ceil(total / limit),
+        };
     }
 
     async read(id: number) {

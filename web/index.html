@@ -81,6 +81,21 @@
           </tbody>
         </table>
       </div>
+
+      <input type="hidden" id="current-page" value="">
+
+      <div class="col-md-10 mt-4 mb-4 display-flex hidden" id="div-pagination">
+        <div class="col-md-3"></div>
+        <div class="col-md-4 text-center mx-auto">
+                <span class="arrow-pagination" id="previous" title="Anterior">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </span>
+          <span id="page-number">1</span>
+          <span class="arrow-pagination" id="next" title="Próxima">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -175,7 +190,7 @@
 <script>
   $(document).ready(function() {
     // Fetches and listing all patients
-    fetchesPatients();
+    fetchesPatients(1);
 
     // Reloads location
     $('.reload').click(function () {
@@ -216,6 +231,24 @@
 
       // console.log(formDataString);
       updatePacient(id, formDataString);
+    });
+
+    // Switches to next page
+    $('#next').click(function () {
+
+      let currentPage = $('#current-page').val();
+      let page = parseInt(currentPage) + 1;
+
+      fetchesPatients(page);
+    });
+
+    // Switches to previous page
+    $('#previous').click(function () {
+
+      let currentPage = $('#current-page').val();
+      let page = parseInt(currentPage) - 1;
+
+      fetchesPatients(page);
     });
   });
 </script>
