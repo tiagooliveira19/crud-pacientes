@@ -6,8 +6,9 @@ import {
     Delete,
     Body,
     Param,
+    Query,
     HttpStatus
-} from '@nestjs/common';
+} from "@nestjs/common";
 import { PacientesService } from "../service/pacientes.service";
 import { PacientesDTO } from '../dto/pacientes.dto';
 
@@ -16,12 +17,12 @@ export class PacientesController {
     constructor(private pacientesService: PacientesService) {}
 
     @Get()
-    async showAllPacientes() {
-        const pacientes =  await this.pacientesService.showAll();
+    async showAllPacientes(@Query('page') page: number = 1, @Query('limit') limit: number = 10) {
+        const pacientes = await this.pacientesService.showAll(page, limit);
         return {
             statusCode: HttpStatus.OK,
             message: 'Pacientes encontrados com sucesso!',
-            pacientes
+            pacientes: pacientes,
         };
     }
 
@@ -56,12 +57,16 @@ export class PacientesController {
     }
 
     @Get('nome/:nome')
-    async readPacienteNome(@Param('nome') nome: string) {
-        const data =  await this.pacientesService.findByName(nome);
+    async readPacienteNome(
+      @Param('nome') nome: string,
+      @Query('page') page: number = 1,
+      @Query('limit') limit: number = 10,
+    ) {
+        const data = await this.pacientesService.findByName(nome, page, limit);
         return {
             statusCode: HttpStatus.OK,
-            message: 'Paciente(s) encontrado com sucesso!',
-            data,
+            message: 'Paciente(s) encontrado(s) com sucesso!',
+            pacientes: data,
         };
     }
 

@@ -1,20 +1,28 @@
 
 // Fetches and listing all registers
-function fetchesPatients () {
+function fetchesPatients (page) {
 
-  $.get(`http://localhost:3000/pacientes/`, function (response) {
+  $.get(`http://localhost:3000/pacientes/?page=` + page, function (response) {
 
     // console.log(response);
 
     var table_body = 'table-body-patients';
+    var data = response.pacientes;
 
-    if (response.pacientes.length > 0) {
+    if (data.count > 0) {
 
-      $('#total-itens').html(response.pacientes.length);
+      $('#total-itens').html(data.count);
+      $('#current-page').val(data.page);
+      $('#div-pagination').removeClass('hidden').fadeIn('slow');
+
+      disablesButton(data.page, data.totalPages, 'previous', 'next');
+
+      let pageNumber = data.page;
+      $('#page-number').html(pageNumber);
 
       $('#' + table_body).empty();
 
-      $.each(response.pacientes, function (key, json) {
+      $.each(data.data, function (key, json) {
 
         $('#' + table_body)
           .append(
@@ -101,7 +109,7 @@ function fetchesPatientById (id) {
     type: 'get',
 
     success: function (response) {
-      // console.log(response);
+      console.log(response);
 
       var data = response.data;
 
@@ -208,14 +216,22 @@ function fetchesPatientByName (name) {
     // console.log(response);
 
     var table_body = 'table-body-patients';
+    var data = response.pacientes;
 
-    if (response.data.length > 0) {
+    if (data.count > 0) {
 
-      $('#total-itens').html(response.data.length);
+      $('#total-itens').html(data.count);
+      $('#current-page').val(data.page);
+      $('#div-pagination').removeClass('hidden').fadeIn('slow');
+
+      disablesButton(data.page, data.totalPages, 'previous', 'next');
+
+      let pageNumber = data.page;
+      $('#page-number').html(pageNumber);
 
       $('#' + table_body).empty();
 
-      $.each(response.data, function (key, json) {
+      $.each(data.data, function (key, json) {
 
         $('#' + table_body)
           .append(
@@ -247,7 +263,7 @@ $('#search').keyup(function () {
 
   if (search.length === 0) {
     debounceTimeout = setTimeout(function () {
-      fetchesPatients();
+      fetchesPatients(1);
     }, 1500);
     return;
   }
