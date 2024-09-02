@@ -8,12 +8,13 @@
 
 * Summary of set up: <code>Node v20.17</code>
 * Dependencies: <code>mysql2, nestjs</code>
-* Database configuration: MySQL running on apache server using [xampp](https://www.apachefriends.org/pt_br/download.html)
+* Database configuration: MySQL running on apache server using [xampp](https://www.apachefriends.org/pt_br/download.html) or using <code>Docker</code> containers
 * How to run the project server: In the terminal, run the command <code>npm run start</code>
 * More information:
     * The database used in the application must be created before starting the application, the table(s) and their respective attributes will be created automatically during the
       first run of command <code>npm run start</code>
     * In the application layout structure were used <code>html, css, bootstrap and javascript</code>
+    * Use this link to access the [web](http://localhost/web/) application
 
 ### Who do I talk to? ###
 
