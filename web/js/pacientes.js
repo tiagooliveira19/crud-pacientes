@@ -209,9 +209,9 @@ function fetchesPatientByCPF (cpf) {
 }
 
 // Fetches patient by name
-function fetchesPatientByName (name) {
+function fetchesPatientByName (name, page) {
 
-  $.get(`http://localhost:3000/pacientes/nome/` + name, function (response) {
+  $.get(`http://localhost:3000/pacientes/nome/` + name + '/page=' + page, function (response) {
 
     // console.log(response);
 
